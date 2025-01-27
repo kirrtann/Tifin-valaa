@@ -216,9 +216,9 @@ export default function Signup() {
           {loading ? "Creating account..." : "Sign Up"}
         </button>
       </form>
-      <div className="text-center mt-4">
+      <div className="text-center mt-4"> Already have an account?
         <Link href="/login" className="text-sm text-blue-600 hover:underline">
-          Already have an account? <span className="font-medium">Log In</span>
+          <span className="font-medium">Log In</span>
         </Link>
       </div>
       {error && <p className="text-red-500 text-sm mt-4">{error}</p>}

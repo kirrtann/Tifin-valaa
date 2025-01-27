@@ -46,7 +46,6 @@ export default function Login() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    // Validate email and password
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       setLoading(false);
@@ -64,10 +63,11 @@ export default function Login() {
 
     try {
       const response = await axios.post("http://localhost:4000/api/auth/login", credentials);
-      
+
       if (response.status === 200) {
         setSuccess("Login successful!");
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("email", credentials.email);
         router.push("/home");
       }
     } catch (err: any) {
@@ -111,17 +111,16 @@ export default function Login() {
         </div>
         <button
           type="submit"
-          className={`w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
-      <div className="text-center mt-4">
+      <div className="text-center mt-4"> Not have an account?
         <Link href="/signup" className="text-sm text-blue-600 hover:underline">
-          Not have an account? <span className="font-medium">Sign Up</span>
+          <span className="font-medium">Sign Up</span>
         </Link>
       </div>
       {error && <p className="text-red-500 text-sm mt-4">{error}</p>}

@@ -1,16 +1,12 @@
 "use client"
 import React from 'react'
 import Navbar from '../navbar/page'
-import useAuth from '../auth/page';
-import { TifinDetail } from '../detail/page';
+import { TifinDetail } from '../detailCard/page';
 import Footer from '../footer/page';
 
 
 const Main = () => {
-    const isAuthenticated = useAuth();
-    if (!isAuthenticated) {
-        return <div>...loading</div>
-    }
+
     return (
         <>
             <div className='max-w-[940px] mx-auto'>
@@ -26,17 +22,13 @@ const Main = () => {
                         <h1 className='sm:text-[36px] text-[28px]' >Find Your Nearest Tifin</h1>
                     </div>
                     <div className='flex  flex-wrap sm:flex-nowrap  gap-3 justify-center'>
-
                         <TifinDetail />
                         <TifinDetail />
                         <TifinDetail />
                     </div>
                 </div>
-                <div>
-                    
-                </div>
             </div>
-            <Footer/>
+            <Footer />
         </>
     )
 

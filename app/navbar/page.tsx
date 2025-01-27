@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [usermenu, setUsermenu] = useState(false)
-  const Uname = localStorage.getItem('email')
+  const loginCheck = localStorage.getItem('token')
+  const Uname = localStorage.getItem("email")
   const route = useRouter()
   const Logout = () => {
     localStorage.setItem('token', "")
@@ -21,7 +22,6 @@ const Navbar = () => {
               <div className='text-2xl font-serif font-bold '>
                 Tifin-Valaa
               </div>
-
               <div className='flex ml-[50px] absolute end-0'>
                 <button
                   className="lg:hidden   text-gray-500 hover:text-gray-800 focus:outline-none"
@@ -46,31 +46,42 @@ const Navbar = () => {
 
                   <ul className="hidden lg:flex gap-5 tracking-[1px] py-[2px] font-serif  font-bold  text-[16px]">
                     <li>
-                      <Link href="/" className="hover:text-black font-semibold">
+                      <Link href="/" className=" font-semibold">
                         Home
                       </Link>
                     </li>
 
                     <li>
-                      <Link href="/" className="hover:text-black">
+                      <Link href="/about" className="">
                         About
                       </Link>
                     </li>
                     <li>
-                      <Link href="/" className="hover:text-black">
+                      <Link href="/contact" className="">
                         Contact
                       </Link>
                     </li>
                   </ul>
-
                 </div>
-                {/* <button onClick={() => { setUsermenu(!usermenu) }}  >
-                  <div className=" px-2 text-[18px] ml-[10px] text-white rounded-full bg-red-600 place-items-center ">
-                    {Uname?.[0]}
-                  </div>
-                </button> */}
-                <div>
-                </div>
+                {
+                  !loginCheck ? (
+                    <div className='m-[2px]'>
+                      <Link href={"/login"} >
+                        <button className='  border  font-bold text-[14px] py-[2px] tracking-[1px] bg-green-500 text-white px-[5px] rounded-md'>
+                          Login
+                        </button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div>
+                      <button onClick={() => { setUsermenu(!usermenu) }}  >
+                        <div className=" px-2 text-[18px] ml-[10px] text-white rounded-full bg-red-600 place-items-center ">
+                          {Uname?.[0]}
+                        </div>
+                      </button>
+                    </div>
+                  )
+                }
               </div>
             </div>
             <div className=' mx-1 absolute sm:relative md:right-[30%] sm:mt-[0px]  mt-[20px]  '>
@@ -94,7 +105,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     href="/"
-                    className="hover:text-black font-semibold"
+                    className=""
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     HOME
@@ -103,8 +114,8 @@ const Navbar = () => {
 
                 <li>
                   <Link
-                    href="/"
-                    className="hover:text-black"
+                    href="/about"
+                    className=""
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     ABOUT
@@ -112,8 +123,8 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    href="/"
-                    className="hover:text-black"
+                    href="/contact"
+                    className=""
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     CONTACT
@@ -127,7 +138,6 @@ const Navbar = () => {
 
         </nav>
       </div>
-      
       <div className='max-w-[940px] mx-auto justify-items-end mt-[-20px]'>
         {
           usermenu && (
@@ -136,7 +146,6 @@ const Navbar = () => {
                 <li>
                   <Link href={"/profile"}>Setting</Link>
                 </li>
-               
                 <li>
                   <button onClick={Logout} className=''>
                     Logout
@@ -144,11 +153,9 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-
           )
         }
       </div>
-
     </>
   )
 }
