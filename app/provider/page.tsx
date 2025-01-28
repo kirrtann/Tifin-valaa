@@ -1,12 +1,12 @@
-import axios from 'axios'
 import React from 'react'
+import Navbar from '../navbar/page'
 
 const ProviderPage = () => {
-  const API = "localhost/4000/provider"
-  const data = axios.get("")
+  
   return (
     <>
-      <div className='maw-w-[940px]'>
+      <Navbar />
+      <div className=' mt-[50px] max-w-[940px] mx-auto'>
         <div>
           <div>
             image

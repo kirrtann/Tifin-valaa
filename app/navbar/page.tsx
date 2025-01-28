@@ -8,9 +8,13 @@ const Navbar = () => {
   const [usermenu, setUsermenu] = useState(false)
   const loginCheck = localStorage.getItem('token')
   const Uname = localStorage.getItem("email")
+  const Role = localStorage.getItem("role")
   const route = useRouter()
   const Logout = () => {
     localStorage.setItem('token', "")
+    localStorage.setItem('email', "")
+    localStorage.setItem('role', "")
+
     route.push("/login")
   }
   return (
@@ -140,12 +144,12 @@ const Navbar = () => {
       </div>
       <div className='max-w-[940px] mx-auto justify-items-end mt-[-20px]'>
         {
-          usermenu && (
+          (usermenu && Role === "user") ? (
             <div className='w-fit bg-blue-600 p-[10px] text-white tracking-[1px] '>
               <ul>
-                <li>
+                {/* <li>
                   <Link href={"/profile"}>Setting</Link>
-                </li>
+                </li> */}
                 <li>
                   <button onClick={Logout} className=''>
                     Logout
@@ -153,7 +157,23 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-          )
+          ) :
+            (
+              usermenu && Role === "provider" && (
+                <div className='w-fit bg-blue-600 p-[10px] text-white tracking-[1px] '>
+                <ul>
+                  <li>
+                    <Link href={"/provider"}>Setting</Link>
+                  </li>
+                  <li>
+                    <button onClick={Logout} className=''>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              )
+            )
         }
       </div>
     </>

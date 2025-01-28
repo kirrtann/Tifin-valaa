@@ -8,54 +8,26 @@ export default function Signup() {
   const [loading, setLoading] = useState(false); // For loading state
   const [error, setError] = useState(""); // For error messages
   const [success, setSuccess] = useState(""); // For success messages
+  const [role, setRole] = useState("user"); // Role selection state
 
   const router = useRouter();
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validateMobileNumber = (tel: string) => {
-    const mobileRegex = /^[0-9]{10}$/; // Validates a 10-digit mobile number
-    return mobileRegex.test(tel);
-  };
-
-  const validateName = (name: string) => {
-    if (name.trim().length < 3) {
-      return "Name must be at least 3 characters long.";
-    }
-    return "";
-  };
-
-  const validateAddress = (address: string) => {
-    if (address.trim().length < 5) {
-      return "Address must be at least 5 characters long.";
-    }
-    return "";
-  };
-
+  // Utility validation functions
+  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateMobileNumber = (tel: string) => /^[0-9]{10}$/.test(tel);
+  const validateName = (name: string) => (name.trim().length < 3 ? "Name must be at least 3 characters long." : "");
+  const validateAddress = (address: string) => (address.trim().length < 5 ? "Address must be at least 5 characters long." : "");
   const validatePassword = (password: string) => {
-    if (password.length < 8) {
-      return "Password must be at least 8 characters long.";
-    }
-    if (!/[A-Z]/.test(password)) {
-      return "Password must contain at least one uppercase letter.";
-    }
-    if (!/[a-z]/.test(password)) {
-      return "Password must contain at least one lowercase letter.";
-    }
-    if (!/[0-9]/.test(password)) {
-      return "Password must contain at least one number.";
-    }
-    if (!/[!@#$%^&*]/.test(password)) {
-      return "Password must contain at least one special character (!@#$%^&*).";
-    }
+    if (password.length < 8) return "Password must be at least 8 characters long.";
+    if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter.";
+    if (!/[a-z]/.test(password)) return "Password must contain at least one lowercase letter.";
+    if (!/[0-9]/.test(password)) return "Password must contain at least one number.";
+    if (!/[!@#$%^&*]/.test(password)) return "Password must contain at least one special character (!@#$%^&*).";
     return "";
   };
 
   const handleSubmit = async (event: any) => {
-    event.preventDefault(); // Prevent form's default submission behavior
+    event.preventDefault();
     setLoading(true);
     setError("");
     setSuccess("");
@@ -67,51 +39,46 @@ export default function Signup() {
     const address = formData.get("address") as string;
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("conformpassword") as string;
+    const Image = formData.get("image") as string;
+    console.log(Image);
+    
 
-    // Validate email, number, name, address, and password
+    // Validate form inputs
     if (!validateEmail(email)) {
-      console.log("Done");
-
       setError("Please enter a valid email address.");
       setLoading(false);
       return;
     }
-
     if (!validateMobileNumber(mobile_number)) {
       setError("Please enter a valid 10-digit mobile number.");
       setLoading(false);
       return;
     }
-
     const nameError = validateName(name);
     if (nameError) {
       setError(nameError);
       setLoading(false);
       return;
     }
-
     const addressError = validateAddress(address);
     if (addressError) {
       setError(addressError);
       setLoading(false);
       return;
     }
-
     const passwordError = validatePassword(password);
     if (passwordError) {
       setError(passwordError);
       setLoading(false);
       return;
     }
-
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       setLoading(false);
       return;
     }
 
-    const credentials = { email, password, name, mobile_number, address };
-
+    const credentials = { email, password, name, mobile_number, address, role };
 
     try {
       const response = await axios.post("http://localhost:4000/api/auth/signup", credentials);
@@ -122,8 +89,6 @@ export default function Signup() {
       }
     } catch (err: any) {
       if (err.response && err.response.data) {
-        console.log(err.response.data);
-        
         setError(err.response.data.message || "Signup failed. Please try again.");
       }
     } finally {
@@ -134,6 +99,19 @@ export default function Signup() {
   return (
     <div className="max-w-md mx-auto mt-12 bg-white shadow-lg rounded-lg p-6">
       <h1 className="text-center text-3xl font-bold text-gray-800 mb-6">Sign Up</h1>
+      <div className="mb-4">
+        <label htmlFor="role" className="block text-sm font-medium text-gray-700">Select Role</label>
+        <select
+          name="role"
+          id="role"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="user">User</option>
+          <option value="provider">Tiffin Provider</option>
+        </select>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -148,7 +126,7 @@ export default function Signup() {
           />
         </div>
         <div>
-          <label htmlFor="mobile_Number" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="mobile_number" className="block text-sm font-medium text-gray-700">
             Mobile Number
           </label>
           <input
@@ -160,8 +138,8 @@ export default function Signup() {
           />
         </div>
         <div>
-          <label htmlFor="Name" className="block text-sm font-medium text-gray-700">
-            Name
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            {role === "User" ? "Name" : "Your Branch Name"}
           </label>
           <input
             type="text"
@@ -172,7 +150,7 @@ export default function Signup() {
           />
         </div>
         <div>
-          <label htmlFor="Address" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="address" className="block text-sm font-medium text-gray-700">
             Address
           </label>
           <input
@@ -181,6 +159,17 @@ export default function Signup() {
             id="address"
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
+          />
+        </div>
+        <div>
+          <label htmlFor="Image" className="block text-sm font-medium text-gray-700">
+            Image
+          </label>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         <div>
@@ -200,7 +189,7 @@ export default function Signup() {
             Confirm Password
           </label>
           <input
-            type="text"
+            type="password"
             name="conformpassword"
             id="conformpassword"
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -216,7 +205,8 @@ export default function Signup() {
           {loading ? "Creating account..." : "Sign Up"}
         </button>
       </form>
-      <div className="text-center mt-4"> Already have an account?
+      <div className="text-center mt-4">
+        Already have an account?{" "}
         <Link href="/login" className="text-sm text-blue-600 hover:underline">
           <span className="font-medium">Log In</span>
         </Link>

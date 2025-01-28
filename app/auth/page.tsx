@@ -8,18 +8,14 @@ const useAuth = (redirectAuthenticated = false) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(redirectAuthenticated);
-
     if (token) {
       setIsAuthenticated(true);
       if (redirectAuthenticated) {
-        router.push('/detailpage'); 
+        router.push('/detailpage');
       }
- 
-    } else {
-        router.push('/login')
-      
 
+    } else {
+      router.push('/login')
     }
   }, [token, redirectAuthenticated]);
 

@@ -9,6 +9,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [role, setRole] = useState("user"); // Default role is User
 
   const router = useRouter();
 
@@ -37,6 +38,8 @@ export default function Login() {
   };
 
   const handleSubmit = async (event: any) => {
+
+
     event.preventDefault();
     setLoading(true);
     setError("");
@@ -59,16 +62,17 @@ export default function Login() {
       return;
     }
 
-    const credentials = { email, password };
+    const credentials = { email, password, role };
 
     try {
       const response = await axios.post("http://localhost:4000/api/auth/login", credentials);
-
       if (response.status === 200) {
         setSuccess("Login successful!");
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("email", credentials.email);
-        router.push("/home");
+        localStorage.setItem("role", credentials.role);
+
+       
       }
     } catch (err: any) {
       if (err.response && err.response.data) {
@@ -109,6 +113,21 @@ export default function Login() {
             required
           />
         </div>
+        <div>
+          <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+            Role
+          </label>
+          <select
+            name="role"
+            id="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="user">User</option>
+            <option value="provider">Provider</option>
+          </select>
+        </div>
         <button
           type="submit"
           className={`w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${loading ? "opacity-50 cursor-not-allowed" : ""
@@ -118,7 +137,8 @@ export default function Login() {
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
-      <div className="text-center mt-4"> Not have an account?
+      <div className="text-center mt-4">
+        Not have an account?{" "}
         <Link href="/signup" className="text-sm text-blue-600 hover:underline">
           <span className="font-medium">Sign Up</span>
         </Link>
