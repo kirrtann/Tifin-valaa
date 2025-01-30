@@ -1,183 +1,199 @@
-'use client'
+"use client"
 
-import Link from 'next/link'
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation';
+import Link from "next/link"
+import React, { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { Menu, X, Search, LogOut, Settings } from "lucide-react"
+
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [usermenu, setUsermenu] = useState(false)
-  const loginCheck = localStorage.getItem('token')
-  const Uname = localStorage.getItem("email")
-  const Role = localStorage.getItem("role")
-  const route = useRouter()
-  const Logout = () => {
-    localStorage.setItem('token', "")
-    localStorage.setItem('email', "")
-    localStorage.setItem('role', "")
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [userMenu, setUserMenu] = useState(false)
+  const [loginCheck, setLoginCheck] = useState("")
+  const [uname, setUname] = useState("")
+  const [role, setRole] = useState("")
+  const router = useRouter()
 
-    route.push("/login")
+  useEffect(() => {
+    setLoginCheck(localStorage.getItem("token") || "")
+    setUname(localStorage.getItem("email") || "")
+    setRole(localStorage.getItem("role") || "")
+  }, [])
+
+  const logout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("email")
+    localStorage.removeItem("role")
+    router.push("/login")
   }
+
   return (
-    <>
-      <div className=''>
-        <nav className="max-w-[940px] mx-auto relative  font-karla  ">
-          <div className="container mx-auto  sm:flex items-center justify-between py-6 px-4 sm:px-6 md:px-8 font-karla">
-            <div className='flex  '>
-              <div className='text-2xl font-serif font-bold '>
-                Tifin-Valaa
-              </div>
-              <div className='flex ml-[50px] absolute end-0'>
-                <button
-                  className="lg:hidden   text-gray-500 hover:text-gray-800 focus:outline-none"
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4 6h16M4 12h16m-7 6h7"
-                    />
-                  </svg>
-                </button>
-                <div className=''>
-
-                  <ul className="hidden lg:flex gap-5 tracking-[1px] py-[2px] font-serif  font-bold  text-[16px]">
-                    <li>
-                      <Link href="/" className=" font-semibold">
-                        Home
-                      </Link>
-                    </li>
-
-                    <li>
-                      <Link href="/about" className="">
-                        About
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/contact" className="">
-                        Contact
-                      </Link>
-                    </li>
-                  </ul>
+    <nav className="bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/" className="flex-shrink-0">
+              <h1 className="text-2xl font-bold text-gray-800">Tiffin-Valaa</h1>
+            </Link>
+          </div>
+          <div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
+            <div className="max-w-lg w-full lg:max-w-xs">
+              <label htmlFor="search" className="sr-only">
+                Search
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400" />
                 </div>
-                {
-                  !loginCheck ? (
-                    <div className='m-[2px]'>
-                      <Link href={"/login"} >
-                        <button className='  border  font-bold text-[14px] py-[2px] tracking-[1px] bg-green-500 text-white px-[5px] rounded-md'>
-                          Login
-                        </button>
-                      </Link>
-                    </div>
-                  ) : (
-                    <div>
-                      <button onClick={() => { setUsermenu(!usermenu) }}  >
-                        <div className=" px-2 text-[18px] ml-[10px] text-white rounded-full bg-red-600 place-items-center ">
-                          {Uname?.[0]}
-                        </div>
-                      </button>
-                    </div>
-                  )
-                }
+                <input
+                  id="search"
+                  name="search"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Where you..."
+                  type="search"
+                />
               </div>
-            </div>
-            <div className=' mx-1 absolute sm:relative md:right-[30%] sm:mt-[0px]  mt-[20px]  '>
-              <form className=" mx-auto">
-                <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
-                  </div>
-                  <input type="search" className="block bg-transparent w-full p-3 outline-none ps-10 text-sm text-gray-900 border border-gray-400 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Where You" required />
-                  <button type="submit" className="text-white absolute end-2.5 bottom-2 bg-green-500   font-medium rounded-lg text-[16px] px-4  py-1 dark:bg-blue-600 dark:hover:bg-blue-700 tracking-[1px] font-serif ">Get Tifin </button>
-                </div>
-              </form>
             </div>
           </div>
-          {isMobileMenuOpen && (
-            <div className="lg:hidden bg-white shadow-md absolute top-16   left-0 w-full z-40">
-              <ul className="flex flex-col items-center space-y-4 py-6 text-sm font-medium text-gray-500">
-                <li>
-                  <Link
-                    href="/"
-                    className=""
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    HOME
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/about"
-                    className=""
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    ABOUT
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className=""
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    CONTACT
-                  </Link>
-                </li>
-
-              </ul>
-
+          <div className="hidden md:flex items-center">
+            <div className="flex space-x-4">
+              <Link href="/" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                Home
+              </Link>
+              <Link
+                href="/about"
+                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Contact
+              </Link>
             </div>
-          )}
-
-        </nav>
-      </div>
-      <div className='max-w-[940px] mx-auto justify-items-end mt-[-20px]'>
-        {
-          (usermenu && Role === "user") ? (
-            <div className='w-fit bg-blue-600 p-[10px] text-white tracking-[1px] '>
-              <ul>
-                {/* <li>
-                  <Link href={"/profile"}>Setting</Link>
-                </li> */}
-                <li>
-                  <button onClick={Logout} className=''>
-                    Logout
+            {!loginCheck ? (
+              <Link
+                href="/login"
+                className="ml-4 px-4 py-2 rounded-md text-sm font-medium text-center text-white bg-green-500 hover:bg-green-600"
+              >
+                Login
+              </Link>
+            ) : (
+              <div className="ml-3 relative">
+                <div>
+                  <button
+                    onClick={() => setUserMenu(!userMenu)}
+                    className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                    id="user-menu"
+                    aria-haspopup="true"
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <div className="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center text-white font-semibold">
+                      {uname?.[0]?.toUpperCase()}
+                    </div>
                   </button>
-                </li>
-              </ul>
-            </div>
-          ) :
-            (
-              usermenu && Role === "provider" && (
-                <div className='w-fit bg-blue-600 p-[10px] text-white tracking-[1px] '>
-                <ul>
-                  <li>
-                    <Link href={"/provider"}>Setting</Link>
-                  </li>
-                  <li>
-                    <button onClick={Logout} className=''>
+                </div>
+                {userMenu && (
+                  <div
+                    className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="user-menu"
+                  >
+                    {role === "provider" && (
+                      <Link
+                        href="/provider"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        <Settings className="inline-block w-4 h-4 mr-2" />
+                        Settings
+                      </Link>
+                    )}
+                    <button
+                      onClick={logout}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      role="menuitem"
+                    >
+                      <LogOut className="inline-block w-4 h-4 mr-2" />
                       Logout
                     </button>
-                  </li>
-                </ul>
+                  </div>
+                )}
               </div>
-              )
-            )
-        }
+            )}
+          </div>
+          <div className="flex md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+            >
+              <span className="sr-only">Open main menu</span>
+              {isMobileMenuOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
+            </button>
+          </div>
+        </div>
       </div>
-    </>
+
+      {isMobileMenuOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link
+              href="/"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            >
+              About
+            </Link>
+            <Link
+              href="/contact"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            >
+              Contact
+            </Link>
+          </div>
+          <div className="pt-4 pb-3 border-t border-gray-200">
+            <div className="px-2 space-y-1">
+              {!loginCheck ? (
+                <Link
+                  href="/login"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-500 hover:bg-green-600"
+                >
+                  Login
+                </Link>
+              ) : (
+                <>
+                  {role === "provider" && (
+                    <Link
+                      href="/provider"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                    >
+                      <Settings className="inline-block w-4 h-4 mr-2" />
+                      Settings
+                    </Link>
+                  )}
+                  <button
+                    onClick={logout}
+                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                  >
+                    <LogOut className="inline-block w-4 h-4 mr-2" />
+                    Logout
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </nav>
   )
 }
 
 export default Navbar
+

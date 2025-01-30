@@ -4,7 +4,7 @@ import Main from "./home/page";
 export default function Home() {
   return (
     <>
-      <div>
+      <div className="dark:bg-white dark:text-black">
         {/* <Login /> */}
         <Main />
       </div>

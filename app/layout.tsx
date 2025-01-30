@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Tifin Valaa",
-  description: "Tifin Servis Provider Contact Details And Many More",
+  description: "Tifin Servis Provider Contact Details And Many More"
+
 };
 
 export default function RootLayout({
@@ -25,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-white dark:text-black`}
       >
         {children}
       </body>

@@ -1,25 +1,32 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+import Image from "next/image"
+import Link from "next/link"
+import React from "react"
+import { Star } from "lucide-react"
 
 export const TifinDetail = () => {
   return (
-    <>
-      <div className='w-full'>
-        <div className='border w-full  rounded-lg'>
-          <Image src={"/images.jpeg"} width={300} height={50} alt='servis Provider' className='w-full sm:h-[150px] h-[250px] bg-cover rounded-t-xl object-cover  object-center' />
-          <Link href={"/login"}>
-            <div className='px-3 py-1'>
-              <h3 className='text-[20px]'>Provider Name</h3>
-              <h5 className='text-[18px]'>Contact No...</h5>
-              <h5>address</h5>
-              <div>
-                Rating:4.5
-              </div>
-            </div>
-          </Link>
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+      <Link href="/login" className="block">
+        <div className="relative h-48 sm:h-56">
+          <Image
+            src="/images.jpeg"
+            layout="fill"
+            objectFit="cover"
+            alt="Service Provider"
+            className="transition-transform duration-300 hover:scale-110"
+          />
         </div>
-      </div>
-    </>
+        <div className="p-4">
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Provider Name</h3>
+          <p className="text-gray-600 mb-1">Contact: 123-456-7890</p>
+          <p className="text-gray-600 mb-2">123 Main St, City, State</p>
+          <div className="flex items-center">
+            <Star className="w-5 h-5 text-yellow-400 fill-current" />
+            <span className="ml-1 text-gray-700">4.5</span>
+          </div>
+        </div>
+      </Link>
+    </div>
   )
 }
+
