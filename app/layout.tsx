@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tifin Valaa",
-  description: "Tifin Servis Provider Contact Details And Many More"
+  title: "Tiffin Valaa",
+  description: "Tiffin Servis Provider Contact Details And Many More"
 
 };
 

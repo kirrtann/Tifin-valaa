@@ -3,13 +3,19 @@
 import Image from "next/image"
 import React from "react"
 import Navbar from "../navbar/page"
-import { Star, Phone, MapPin, Clock, DollarSign, Utensils } from "lucide-react"
+import { Star, Phone, MapPin, Clock, Utensils, MoveLeft, ArrowLeftCircle, IndianRupee } from "lucide-react"
+import Link from "next/link"
 
 const DetailPage = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Link href={"/"}>
+        <div>
+          <ArrowLeftCircle className="mb-1" />
+        </div>
+      </Link>
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
           <div className="md:flex">
             <div className="md:flex-shrink-0">
@@ -26,10 +32,6 @@ const DetailPage = () => {
               <h1 className="mt-2 text-3xl font-bold text-gray-900">Provider Name</h1>
               <div className="mt-4 flex items-center">
                 <Star className="h-5 w-5 text-yellow-400" />
-                <Star className="h-5 w-5 text-yellow-400" />
-                <Star className="h-5 w-5 text-yellow-400" />
-                <Star className="h-5 w-5 text-yellow-400" />
-                <Star className="h-5 w-5 text-gray-300" />
                 <span className="ml-2 text-gray-600">4.5 (128 reviews)</span>
               </div>
               <div className="mt-4 space-y-2">
@@ -56,7 +58,7 @@ const DetailPage = () => {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               <div className="flex items-center bg-white p-4 rounded-lg shadow">
-                <DollarSign className="h-6 w-6 text-green-500 mr-3" />
+                <IndianRupee className="h-6 w-6 text-green-500 mr-3" />
                 <div>
                   <h3 className="font-semibold text-gray-900">Pricing</h3>
                   <p className="text-gray-600">Starting from $8.99 per meal</p>
@@ -66,7 +68,7 @@ const DetailPage = () => {
                 <Utensils className="h-6 w-6 text-blue-500 mr-3" />
                 <div>
                   <h3 className="font-semibold text-gray-900">Cuisine</h3>
-                  <p className="text-gray-600">Indian, Chinese, Continental</p>
+                  <p className="text-gray-600">Gujarati, Panjabi, South Indian</p>
                 </div>
               </div>
             </div>
@@ -75,10 +77,9 @@ const DetailPage = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Menu Highlights</h2>
             <ul className="list-disc list-inside text-gray-600 space-y-2">
               <li>Vegetarian Thali</li>
-              <li>Butter Chicken with Naan</li>
               <li>Paneer Tikka Masala</li>
               <li>Vegetable Biryani</li>
-              <li>Dal Makhani</li>
+              <li>Dal Bati</li>
             </ul>
           </div>
         </div>

@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react"
 import Navbar from "../navbar/page"
 import axios from "axios"
-import { Loader2, PenSquare, User, Phone, MapPin, Mail, X } from "lucide-react"
+import { Loader2, PenSquare, User, Phone, MapPin, Mail } from "lucide-react"
 import type React from "react"
 
 const ProviderPage = () => {
@@ -188,7 +188,7 @@ const EditFormItem: React.FC<EditFormItemProps> = ({ icon: Icon, label, name, va
         value={value}
         onChange={onChange}
         disabled={disabled}
-        className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+        className={`mt-1 block w-full outline-none px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
       />
     </div>
   </div>
